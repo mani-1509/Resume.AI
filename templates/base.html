@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume.AI</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <canvas id="three-container"></canvas>
+    <header>
+      <nav class="navbar">
+        <a class="logo" href="/">
+          <img
+            class="logoImg"
+            src="https://res.cloudinary.com/dg0u5ptwr/image/upload/v1740236177/aivgysnd7ckxjifewa76.jpg"
+            alt="Resume.AI"
+          />
+        </a>
+        <button class="menu-toggle" aria-label="Toggle navigation">
+          &#9776;
+          <!-- Hamburger icon -->
+        </button>
+        <div class="nav-links">
+          <a href="/upload">Upload</a>
+          <a href="/chatbot">Chat</a>
+          <a href="/coming_soon">Interview</a>
+          <a href="/coming_soon">More</a>
+        </div>
+        <div class="auth-buttons">
+          {% if user %}
+          <!-- Show profile if user is logged in -->
+          <a href="/profile">
+            <img
+              src="https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
+              alt="Profile"
+              class="profile-img"
+            />
+          </a>
+          {% else %}
+          <!-- Show Join and Login buttons if user is not logged in -->
+          <a class="btn btn-secondary" href="/register">Join</a>
+          <a class="btn btn-primary" href="/login">Login</a>
+          {% endif %}
+        </div>
+      </nav>
+    </header>
+    <div class="allcontainer">{% block content %}{% endblock %}</div>
+
+    <footer>
+      <div class="footcontainer">
+        <div class="footer-content">
+          <div class="footer-links">
+            <h4>Quick Links</h4>
+            <a href="/">Home Page</a>
+            <a href="/upload">Upload</a>
+            <a href="/chat">chat</a>
+            <a href="/">Contact Us</a>
+          </div>
+          <div class="footer-links">
+            <h4>Follow Us</h4>
+            <a href="https://www.instagram.com/sharvan_1509/">Instagram</a>
+            <a href="https://github.com/mani-1509">Git Hub</a>
+            <a href="https://www.linkedin.com/in/sharvan-gajula/">LinkedIn</a>
+          </div>
+          <div class="footer-links">
+            <h4>Resources</h4>
+            <a href="/coming_soon">Help Center</a>
+            <a href="/coming_soon">Support</a>
+            <a href="/coming_soon">Privacy Info</a>
+            <a href="/coming_soon">Terms</a>
+          </div>
+          <div class="newsletter">
+            <h4>Join our newsletter</h4>
+            <input type="email" placeholder="Your Email Here" />
+            <button class="btn btn-primary">Join</button>
+          </div>
+        </div>
+        <div
+          style="
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--bg-300);
+          "
+        >
+          <p>© 2024 Resume AI. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+      // Toggle functionality for mobile navigation
+      const menuToggle = document.querySelector(".menu-toggle");
+      const navLinks = document.querySelector(".nav-links");
+
+      menuToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+      });
+    </script>
+  </body>
+</html>

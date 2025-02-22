@@ -1,0 +1,40 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/upload.css') }}"
+  />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.2/markdown-it.min.js"></script>
+</head>
+{% extends "base.html" %} {% block content %}
+<!-- 3D Particle Background -->
+<canvas id="three-container"></canvas>
+
+<!-- Main Content -->
+<div class="bgcontainer">
+  <h2>Upload Your Resume</h2>
+  <input
+    type="file"
+    id="resumeFile"
+    accept=".pdf"
+    placeholder="upload only pdf"
+  />
+  <input
+    type="text"
+    id="jobTitle"
+    placeholder="Target Job (e.g., Software Engineer)"
+    required
+  />
+  <input
+    type="text"
+    id="company"
+    placeholder="Target Company (e.g., Google)"
+    required
+  />
+
+  <button onclick="analyze_resume()">Analyze</button>
+  <div class="loader" id="loader"></div>
+  <div id="output"></div>
+</div>
+
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}

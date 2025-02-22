@@ -1,0 +1,72 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/chatbot.css') }}"
+  />
+  <!-- Include marked.js -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+{% extends "base.html" %} {% block content %}
+<!-- 3D Particle Background -->
+<canvas id="three-container"></canvas>
+
+<!-- Main Content -->
+<div class="bgcontainer">
+  <h2>Chatbot Guidance</h2>
+
+  <!-- Chat Interface -->
+  <div class="chatbox">
+    <div id="chat-log"></div>
+    <form id="chat-form">
+      <input type="text" id="query" placeholder="Ask me anything..." required />
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+    <div class="loader" id="chat-loader"></div>
+  </div>
+</div>
+
+<script>
+  const chatForm = document.getElementById("chat-form");
+  const chatLog = document.getElementById("chat-log");
+  const chatLoader = document.getElementById("chat-loader");
+
+  chatForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const query = document.getElementById("query").value;
+
+    // Add user query to chat log
+    chatLog.innerHTML += `<div class="user-message"><strong>You:</strong> ${query}</div>`;
+
+    // Show loader
+    chatLoader.style.display = "block";
+
+    try {
+      // Send query to server
+      const response = await fetch("/chatbot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
+      });
+
+      const data = await response.json();
+
+      // Render chatbot response as Markdown
+      const botMessage = marked.parse(data.message); // Use marked.js to parse Markdown
+      chatLog.innerHTML += `<div class="bot-message"><strong>Bot:</strong> ${botMessage}</div>`;
+    } catch (error) {
+      // Handle errors
+      chatLog.innerHTML += `<div class="bot-message" style="color:red;">Error: ${error.message}</div>`;
+    } finally {
+      // Hide loader
+      chatLoader.style.display = "none";
+    }
+
+    // Clear input field
+    document.getElementById("query").value = "";
+    chatLog.scrollTop = chatLog.scrollHeight; // Auto-scroll to bottom
+  });
+</script>
+{% endblock %}

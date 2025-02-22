@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <h1>Speech-to-Speech Mock Interview</h1>
+  <button id="startInterview">Start Interview</button>
+  <div id="interviewContainer" style="display: none">
+    <h2 id="question"></h2>
+    <button id="recordResponse">Record Response</button>
+    <div id="feedback"></div>
+  </div>
+</div>
+<script>
+  let mediaRecorder;
+  let audioChunks = [];
+
+  document
+    .getElementById("startInterview")
+    .addEventListener("click", async () => {
+      document.getElementById("interviewContainer").style.display = "block";
+      await fetchQuestion();
+    });
+
+  document
+    .getElementById("recordResponse")
+    .addEventListener("click", async () => {
+      if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+        document.getElementById("recordResponse").textContent =
+          "Record Response";
+      } else {
+        audioChunks = [];
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+        mediaRecorder = new MediaRecorder(stream, {
+          mimeType: "audio/webm; codecs=opus",
+        });
+        mediaRecorder.ondataavailable = (event) => {
+          audioChunks.push(event.data);
+        };
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+          const formData = new FormData();
+          formData.append("audio", audioBlob, "response.webm");
+
+          const response = await fetch("/submit_response", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await response.json();
+          document.getElementById(
+            "feedback"
+          ).innerHTML = `<p>${data.feedback}</p>`;
+          const audio = new Audio(data.audio_url);
+          audio.play();
+        };
+        mediaRecorder.start();
+        document.getElementById("recordResponse").textContent =
+          "Stop Recording";
+      }
+    });
+</script>
+{% endblock %}
