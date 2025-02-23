@@ -76,7 +76,7 @@ def logout():
 # Nebius API Config
 client = OpenAI(
     base_url="https://api.studio.nebius.ai/v1/",
-    api_key=os.getenv("NEBIUS_API_KEY")
+    api_key='eyJhbGciOiJIUzI1NiIsImtpZCI6IlV6SXJWd1h0dnprLVRvdzlLZWstc0M1akptWXBvX1VaVkxUZlpnMDRlOFUiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNzE2MzI4NDkzNTM1MzY2Mzc1NiIsInNjb3BlIjoib3BlbmlkIG9mZmxpbmVfYWNjZXNzIiwiaXNzIjoiYXBpX2tleV9pc3N1ZXIiLCJhdWQiOlsiaHR0cHM6Ly9uZWJpdXMtaW5mZXJlbmNlLmV1LmF1dGgwLmNvbS9hcGkvdjIvIl0sImV4cCI6MTg5NDMwNjM1MCwidXVpZCI6ImRiMzY2YWI3LTJjODEtNGVkZS1hYzZiLWY5Njg5MDgwYWQ1MyIsIm5hbWUiOiJIYWNrYXRob24iLCJleHBpcmVzX2F0IjoiMjAzMC0wMS0xMFQyMDoxMjozMCswMDAwIn0.Uqxspooor2Xnrzp6uoTnqvp3uwZW50M9uTklgkDPtoo'
 )
 
 # Extract text from PDF
