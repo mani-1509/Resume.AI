@@ -199,7 +199,8 @@ def chatbot_interaction():
 @login_required
 def profile():
     user = User.query.get(session['user_id'])
-    return render_template("profile.html", user=user)
+    username = User.query.get(session['user_id']).username
+    return render_template("profile.html", user=user , username=username)
 
 @routes.route('/coming_soon')
 def coming_soon():
